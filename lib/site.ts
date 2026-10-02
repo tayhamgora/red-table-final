@@ -1,7 +1,7 @@
 export const site = {
   name: "Red Table",
   legalName: "Red Table Catering & Events",
-  tagline: "Good food, cooked properly, served on time.",
+  tagline: "Good, thoughtfully, and properly cooked food, served on time.",
   summary:
     "Weddings, corporate events, and private dinners across Lahore for over twenty years.",
   about:
@@ -43,6 +43,14 @@ export const nav = [
   { label: "Menus", href: routes.menus },
   { label: "Gallery", href: routes.gallery },
   { label: "Contact", href: routes.contact },
+] as const;
+
+
+export const serviceLinks = [
+  { label: "All Services", href: routes.services },
+  { label: "Corporate Catering", href: routes.corporate },
+  { label: "Live BBQ Stations", href: routes.live },
+  {label: "Wedding Catering", href: routes.weddings},
 ] as const;
 
 export const footerLinks = [

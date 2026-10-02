@@ -31,7 +31,7 @@ export default function GalleryPage() {
 
       <PageHero
         kicker="Atmosphere"
-        title="Catering gallery"
+        title="Catering Gallery"
         lede="Table architecture, live stations, and buffet presentation from recent events in Lahore."
         imageSrc="/img6.jpg"
         imageAlt="Spinach and cheese quiche arranged for a Red Table event"

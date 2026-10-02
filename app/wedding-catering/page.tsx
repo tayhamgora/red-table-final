@@ -62,7 +62,7 @@ export default function WeddingCateringPage() {
 
       <PageHero
         kicker="Weddings"
-        title="Wedding catering in Lahore"
+        title="Wedding Catering in Lahore"
         lede="From an intimate nikkah dinner to a three-day wedding, we look after the food and the timing so your family can stay with your guests."
         imageSrc="/img3.jpg"
         imageAlt="Gold flatware and linen at a Red Table wedding place setting"

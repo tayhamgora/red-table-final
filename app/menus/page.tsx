@@ -48,7 +48,7 @@ export default function MenusPage() {
 
       <PageHero
         kicker="Menus"
-        title="Catering menu packages in Lahore"
+        title="Catering Menu Packages in Lahore"
         lede="Six starting concepts. We adjust dishes, live stations, and desserts to your guest list — nothing here is a locked box."
         imageSrc="/img5.jpg"
         imageAlt="Fresh gajar halwa served from a Red Table catering menu"

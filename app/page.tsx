@@ -83,8 +83,7 @@ export default function Home() {
             Catering Services in Lahore
           </h1>
           <p className="mt-6 max-w-xl text-base leading-8 text-ivory/75 sm:text-lg">
-            {site.tagline} Thoughtfully cooked food, elevated presentation, and
-            service that holds the schedule.
+            {site.tagline} Elevated presentation, and service that holds the schedule.
           </p>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-ivory/60 sm:text-base">
             {site.about}

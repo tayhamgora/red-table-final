@@ -66,7 +66,7 @@ export default function CorporateCateringPage() {
 
       <PageHero
         kicker="Corporate"
-        title="Corporate catering in Lahore"
+        title="Corporate Catering in Lahore"
         lede="Food that arrives on the minute, tastes consistent at the last table, and does not compete with the programme."
         imageSrc="/img4.jpg"
         imageAlt="Premium salad bar and cheese board for a corporate catering event"

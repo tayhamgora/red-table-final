@@ -2,20 +2,61 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/logo";
 import { WhatsAppLink } from "@/components/whatsapp-link";
-import { nav, routes, site } from "@/lib/site";
+import { nav, routes, serviceLinks, site } from "@/lib/site";
 
 // Scroll position (px) after which the header switches to the solid cream style.
-// Raise this to roughly your hero's height if you want the transparent look to last longer.
 const SOLID_AFTER = 80;
 
+// Pages that should keep a parent nav item underlined.
+// Weddings is its own nav item, so it isn't listed here.
+const NESTED: Record<string, string[]> = {
+  "/catering-services": ["/corporate-catering", "/live-stations"],
+};
+
+function isActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+
+  const matches = (base: string) =>
+    pathname === base || pathname.startsWith(`${base}/`);
+
+  return matches(href) || (NESTED[href] ?? []).some(matches);
+}
+
+function Chevron({
+  open,
+  className = "h-3 w-3",
+}: {
+  open: boolean;
+  className?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 12 12"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`${className} transition-transform duration-200 ${
+        open ? "rotate-180" : ""
+      }`}
+    >
+      <path d="M2.5 4.5 6 8l3.5-3.5" />
+    </svg>
+  );
+}
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -25,8 +66,11 @@ export function Header() {
     };
   }, [open]);
 
+  // Close menus whenever the page changes.
   useEffect(() => {
     setOpen(false);
+    setServicesOpen(false);
+    setMobileServicesOpen(false);
   }, [pathname]);
 
   // Transparent only near the top of the page.
@@ -65,6 +109,35 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [open]);
 
+  // Close the services dropdown when the header slides away.
+  useEffect(() => {
+    if (hidden) setServicesOpen(false);
+  }, [hidden]);
+
+  // Close the services dropdown on Escape or on a click outside it.
+  useEffect(() => {
+    if (!servicesOpen) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setServicesOpen(false);
+    };
+    const onPointer = (event: MouseEvent) => {
+      if (
+        servicesRef.current &&
+        !servicesRef.current.contains(event.target as Node)
+      ) {
+        setServicesOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onPointer);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onPointer);
+    };
+  }, [servicesOpen]);
+
   // Solid (original) style whenever we're past the hero or the mobile menu is open.
   const solid = scrolled || open;
 
@@ -91,7 +164,7 @@ export function Header() {
 
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
           {nav.map((item) => {
-            const active = pathname === item.href;
+            const active = isActive(pathname, item.href);
 
             const color = solid
               ? active
@@ -107,14 +180,68 @@ export function Header() {
                 }`
               : "no-underline";
 
+            const linkClass = `text-[13px] font-medium tracking-[0.04em] transition-colors ${color} ${underline}`;
+
+            if (item.href !== routes.services) {
+              return (
+                <Link key={item.href} href={item.href} className={linkClass}>
+                  {item.label}
+                </Link>
+              );
+            }
+
             return (
-              <Link
+              <div
                 key={item.href}
-                href={item.href}
-                className={`text-[13px] font-medium tracking-[0.04em] transition-colors ${color} ${underline}`}
+                ref={servicesRef}
+                className="relative flex items-center gap-1.5"
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+                onBlur={(event) => {
+                  if (
+                    !event.currentTarget.contains(
+                      event.relatedTarget as Node | null,
+                    )
+                  ) {
+                    setServicesOpen(false);
+                  }
+                }}
               >
-                {item.label}
-              </Link>
+                <Link href={item.href} className={linkClass}>
+                  {item.label}
+                </Link>
+                <button
+                  type="button"
+                  aria-label="Show services menu"
+                  aria-expanded={servicesOpen}
+                  aria-controls="services-menu"
+                  onClick={() => setServicesOpen((value) => !value)}
+                  className={`inline-flex h-6 w-5 items-center justify-center transition-colors ${color}`}
+                >
+                  <Chevron open={servicesOpen} />
+                </button>
+
+                {servicesOpen ? (
+                  <div id="services-menu" className="absolute left-0 top-full pt-6">
+                    <div className="min-w-[15rem] border border-line bg-cream py-2 shadow-[0_18px_40px_-20px_rgba(28,27,24,0.5)]">
+                      {serviceLinks.map((service) => {
+                        const current = pathname === service.href;
+                        return (
+                          <Link
+                            key={service.href}
+                            href={service.href}
+                            className={`block px-5 py-2.5 text-[13px] font-medium tracking-[0.04em] text-ink transition-colors hover:bg-paper ${
+                              current ? "bg-paper" : ""
+                            }`}
+                          >
+                            {service.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
             );
           })}
         </nav>
@@ -164,19 +291,66 @@ export function Header() {
 
       <div id="mobile-nav" className={`lg:hidden ${open ? "block" : "hidden"}`}>
         <nav
-          className="flex min-h-[calc(100svh-4.25rem)] flex-col justify-between bg-cream px-6 pb-10 pt-2"
+          className="flex min-h-[calc(100svh-4.25rem)] max-h-[calc(100svh-4.25rem)] flex-col justify-between overflow-y-auto bg-cream px-6 pb-10 pt-2"
           aria-label="Mobile"
         >
           <div className="flex flex-col">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="border-b border-line py-4 font-display text-3xl text-ink"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {nav.map((item) => {
+              const active = isActive(pathname, item.href);
+              const activeStyle = active
+                ? "underline decoration-black decoration-2 underline-offset-[8px]"
+                : "";
+
+              if (item.href !== routes.services) {
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`border-b border-line py-4 font-display text-3xl text-ink ${activeStyle}`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              }
+
+              return (
+                <div key={item.href} className="border-b border-line">
+                  <div className="flex items-center justify-between">
+                    <Link
+                      href={item.href}
+                      className={`py-4 font-display text-3xl text-ink ${activeStyle}`}
+                    >
+                      {item.label}
+                    </Link>
+                    <button
+                      type="button"
+                      aria-label="Show services links"
+                      aria-expanded={mobileServicesOpen}
+                      aria-controls="mobile-services"
+                      onClick={() => setMobileServicesOpen((value) => !value)}
+                      className="flex h-11 w-11 items-center justify-center text-ink"
+                    >
+                      <Chevron open={mobileServicesOpen} className="h-4 w-4" />
+                    </button>
+                  </div>
+                  {mobileServicesOpen ? (
+                    <div id="mobile-services" className="flex flex-col pb-3 pl-4">
+                      {serviceLinks
+                        .filter((service) => service.href !== routes.services)
+                        .map((service) => (
+                          <Link
+                            key={service.href}
+                            href={service.href}
+                            className="py-2 text-lg text-stone"
+                          >
+                            {service.label}
+                          </Link>
+                        ))}
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
           <div className="space-y-4 pt-8 text-sm text-stone">
             <a href={site.phoneHref} className="block text-ink">

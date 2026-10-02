@@ -71,7 +71,7 @@ export default function CateringServicesPage() {
 
       <PageHero
         kicker="Red Table"
-        title="Catering services in Lahore"
+        title="Catering Services in Lahore"
         lede="Menu planning, live cooking, buffet presentation, and service staff, all from one team and one kitchen in Gulberg."
         imageSrc="/img1.jpg"
         imageAlt="Buffet catering station by Red Table in Lahore"
