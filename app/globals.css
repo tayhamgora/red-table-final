@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #1c1b18;
+  --paper: #f3eee4;
+  --cream: #faf6ef;
+  --ivory: #f7f3ea;
+  --bronze: #8a7046;
+  --bronze-soft: #c4a574;
+  --red: #8B261E;
+  --stone: #746e62;
+  --line: #ddd4c4;
+  --charcoal: #2b2924;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-cream: var(--cream);
+  --color-ivory: var(--ivory);
+  --color-bronze: var(--bronze);
+  --color-bronze-soft: var(--bronze-soft);
+  --color-red: var(--red);
+  --color-stone: var(--stone);
+  --color-line: var(--line);
+  --color-charcoal: var(--charcoal);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), sans-serif;
+}
+
+::selection {
+  background: #d8c29a;
+  color: #1c1b18;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fffdf8;
+  padding: 0.9rem 1rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 180ms ease;
+}
+
+.field:focus {
+  border-color: var(--bronze);
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.whatsapp-pulse {
+  animation: whatsapp-pulse 2.6s ease-out infinite;
+}
+
+@keyframes whatsapp-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(47, 107, 79, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(47, 107, 79, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(47, 107, 79, 0);
+  }
+}
+
+.section-kicker {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--bronze);
+}
+
+/*
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 80;
+  background: #fffdf8;
+  border-bottom: 1px solid #e6dfd2;
+  box-shadow: 0 10px 28px -20px rgba(28, 27, 24, 0.55);
+} */
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 80;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.site-header--hidden {
+  transform: translateY(-100%);
+}
+
+/* your original header look */
+.site-header--solid {
+  background: #fffdf8;
+  border-bottom-color: #e6dfd2;
+  box-shadow: 0 10px 28px -20px rgba(28, 27, 24, 0.55);
+}
