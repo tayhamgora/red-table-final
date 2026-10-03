@@ -103,7 +103,7 @@ export const faqs = {
   weddings: [
     {
       q: "Which wedding functions do you cater?",
-      a: "Any event such as Walima, Nikkah, or Barat We can cater a single event or all event days.",
+      a: "Any event such as Walima, Nikkah, or Barat. We can cater a single event or all event days.",
     },
     {
       q: "Can you handle large wedding guest lists?",
