@@ -10,7 +10,7 @@ import { breadcrumbJsonLd, faqJsonLd, siteUrl } from "@/lib/seo";
 export const metadata: Metadata = {
   title: {
     absolute:
-      "Catering Services in Lahore | Red Table Catering & Events",
+      "Red Table Catering & Events",
   },
   description:
     "Red Table offers catering services in Lahore for weddings, corporate events, and private dinners. Live BBQ, tandoor stations, and full event hospitality from Gulberg.",
