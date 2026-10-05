@@ -430,7 +430,7 @@ export const gallery: GalleryItem[] = [
     src: "/videos/vid1.mp4",
     poster: "/poster1.png",
     alt: "Live BBQ station at a Red Table event",
-    caption: "Live BBQ in Action",
+    caption: "Total Parco Event Catering",
     span: "md",
   },
   {
@@ -438,7 +438,7 @@ export const gallery: GalleryItem[] = [
     src: "/videos/vid2.mp4",
     poster: "/poster2.png",
     alt: "Live BBQ station at a Red Table event",
-    caption: "Live BBQ in Action",
+    caption: "Live Stations in Action",
     span: "md",
   },
   {
@@ -446,7 +446,7 @@ export const gallery: GalleryItem[] = [
     src: "/videos/vid3.mp4",
     poster: "/poster3.png",
     alt: "Live BBQ station at a Red Table event",
-    caption: "Live BBQ in Action",
+    caption: "Live Asian Kitchen",
     span: "md",
   },
   {
@@ -454,7 +454,7 @@ export const gallery: GalleryItem[] = [
     src: "/videos/vid5.mp4",
     poster: "/poster4.png",
     alt: "Live BBQ station at a Red Table event",
-    caption: "Live BBQ in Action",
+    caption: "Live Stalls",
     span: "md",
   },
 ];

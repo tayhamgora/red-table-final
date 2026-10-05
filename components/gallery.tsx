@@ -1,5 +1,6 @@
 "use client";
 
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { gallery } from "@/lib/site";
@@ -70,51 +71,55 @@ export function Gallery() {
         ))}
       </div>
 
-      {active !== null ? (
-        <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/92 p-4 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-label={gallery[active].caption}
-          onClick={() => setActive(null)}
-        >
-          <button
-            type="button"
-            className="absolute top-5 right-5 text-[11px] tracking-[0.2em] text-ivory/70 uppercase hover:text-ivory"
-            onClick={() => setActive(null)}
-          >
-            Close
-          </button>
-          <div
-            className="relative h-[78svh] w-full max-w-5xl"
-            onClick={(event) => event.stopPropagation()}
-          >
-            
-            {gallery[active].type === "video" ? (
-              <video
-                key={gallery[active].src}
-                src={gallery[active].src}
-                poster={gallery[active].poster}
-                controls
-                autoPlay
-                playsInline
-                className="h-full w-full object-contain"
-              />
-            ) : (
-              <Image
-                src={gallery[active].src}
-                alt={gallery[active].alt}
-                fill
-                sizes="90vw"
-                className="object-contain"
-              />
-            )}
-            <p className="absolute inset-x-0 -bottom-10 text-center text-[12px] tracking-[0.18em] text-ivory/70 uppercase">
-              {gallery[active].caption}
-            </p>
-          </div>
-        </div>
-      ) : null}
+            {active !== null
+        ? createPortal(
+            <div
+              className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink/95 p-4 backdrop-blur-sm"
+              role="dialog"
+              aria-modal="true"
+              aria-label={gallery[active].caption}
+              onClick={() => setActive(null)}
+            >
+              <button
+                type="button"
+                className="absolute top-4 right-4 rounded-full border border-ivory/30 px-4 py-2 text-[11px] tracking-[0.2em] text-ivory/80 uppercase hover:text-ivory"
+                onClick={() => setActive(null)}
+              >
+                Close
+              </button>
+
+              <div
+                className="relative h-[72svh] w-full max-w-5xl"
+                onClick={(event) => event.stopPropagation()}
+              >
+                {gallery[active].type === "video" ? (
+                  <video
+                    key={gallery[active].src}
+                    src={gallery[active].src}
+                    poster={gallery[active].poster}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="h-full w-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src={gallery[active].src}
+                    alt={gallery[active].alt}
+                    fill
+                    sizes="90vw"
+                    className="object-contain"
+                  />
+                )}
+              </div>
+
+              <p className="mt-4 text-center text-[12px] tracking-[0.18em] text-ivory/70 uppercase">
+                {gallery[active].caption}
+              </p>
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
