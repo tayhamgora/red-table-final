@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
 
-export const siteUrl = "https://redtable.pk";
+export const siteUrl = "https://redtablecatering.pk";
 
 export function pageMetadata({
   title,

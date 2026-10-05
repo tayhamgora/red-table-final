@@ -86,7 +86,7 @@ const jsonLd = {
     "@type": "City",
     name: "Lahore",
   },
-  url: "https://redtable.pk",
+  url: "https://redtablecatering.pk",
   sameAs: [site.instagramHref],
   priceRange: "$$",
   servesCuisine: ["Pakistani", "Continental", "Asian"],
